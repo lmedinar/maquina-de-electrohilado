@@ -4,10 +4,18 @@
 #define PIN_STEP_A 5
 #define PIN_ALIM_SWITCH_A 6
 #define PIN_READ_SWITCH_A 7
+#define ARRIBA 255
+#define ABAJO 0
+
 int direcion_A;
 
 // FUNCIONES
-
+void paso_motor_A(int retraso) {
+  analogWrite(PIN_STEP_A, 255);
+  delay(2); //
+  analogWrite(PIN_STEP_A, 0);
+  delay(retraso);
+}
 
 
 void setup() {
@@ -21,22 +29,28 @@ void setup() {
   // NOTA: Los relevadores de los motores se encienden en bajo
   analogWrite(PIN_RELE_MOTOR_A, 0); // Iniciamos con motor encendido
   // INICALIZAMOS POSICIÓN HASTA PEGAR CON EL SWITCH
-  while !digitalRead(PIN_READ_SWITCH_A) {
-    direccion_A = 
-    delay(10);
+  while (!digitalRead(PIN_READ_SWITCH_A)) {
+    analogWrite(PIN_DIR_A, ABAJO); // Nos movemos hasta llegar al switch de final de carrera
+    paso_motor_A(20); // Tomamos 10 ms por paso
   }
 }
 
 void loop() {
-  // DIR en alto gira a la derecha, sube la pieza central
-  // DIR en bajo gira a la izquierda, baja la pieza central
-  analogWrite(PIN_DIR_A, 0);
-  for (int i = 0; i < 200; i++) {
-    analogWrite(PIN_STEP_A, 255);
-    delay(2); //
-    analogWrite(PIN_STEP_A, 0);
-    delay(10);
+  // 200 pasos equivalen a una vuelta del motor
+  // Para dar 90 vueltas necesitamos 200 x 90 pasos
+  // Es decir 18000 pasos
+  analogWrite(PIN_DIR_A, ARRIBA); // Empezamos moviéndonos hacia arriba
+  for (int i = 0; i < 1800; i++) {
+    paso_motor_A(10);
   }
-  delay(1000);
+  analogWrite(PIN_DIR_A, ABAJO); // Ahora nos movemos hacia abajo
+  for (int i = 0; i < 1800; i++) {
+    // Por seguridad, en cada paso revisamos si no chocamos con el switch
+    if (digitalRead(PIN_READ_SWITCH_A)){
+        break; // Si chocamos con el switch nos cambiamos a dar 90 vueltas hacia arriba
+      }
+    paso_motor_A(10);
+  }
+
 
 }
