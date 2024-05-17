@@ -5,8 +5,9 @@ Este es un sistema de electrohilado realizado con algunas partes de uso común e
 Ahora mismo la documentación está en construcción, así como una serie de mejoras.
 
 ## Cosas por hacer
-- [x] Migrar el microcontrolador de Arduino Uno a Arduino Mega para tener una mayor cantidad de pines digitales.
-- [ ] Mejorar la velocidad de los motores a pasos.
+- [x] Mejorar la velocidad de los motores a pasos.
+- [ ] Migrar a Arduino Nano para mayor simplicidad y reducción de espacio.
+- [ ] Agregar documentación y modelos 3D.
 - [ ] Integrar una pantalla que dé información.
 - [ ] Agregar un segundo eje de traslación, esto implica:
   - [ ] Diseñar una plataforma con su respectivo mecanismo para realizar un desplazaimento lineal.
